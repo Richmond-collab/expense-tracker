@@ -1,7 +1,19 @@
+from datetime import date
+
 from expenses import Expense, CATEGORIES, sort_by_date
 from storage import load_expenses, save_expenses
 
 DATA_FILE = "expenses.json"
+
+
+def parse_date(value):
+    if not value:
+        return None
+    try:
+        date.fromisoformat(value)
+    except ValueError as err:
+        raise ValueError(f"Invalid date '{value}': {err}")
+    return value
 
 
 def add_expense(items):
@@ -9,7 +21,7 @@ def add_expense(items):
         amount = float(input("Amount: "))
         category = input(f"Category {sorted(CATEGORIES)}: ").strip().lower()
         note = input("Note: ")
-        when = input("Date (YYYY-MM-DD, blank for today): ").strip() or None
+        when = parse_date(input("Date (YYYY-MM-DD, blank for today): ").strip())
         items.append(Expense(amount, category, note, when))
         print("Expense added.")
     except ValueError as err:
@@ -25,7 +37,7 @@ def list_expenses(items):
 
 
 def main():
-    items = []
+    items = load_expenses(DATA_FILE)
     while True:
         print("\n=== Expense Tracker ===")
         print("1. Add expense")
@@ -38,10 +50,15 @@ def main():
         elif choice == "2":
             list_expenses(items)
         elif choice == "3":
+            save_expenses(DATA_FILE, items)
             print("Goodbye!")
             break
         else:
             print("Invalid choice, try again.")
 
 
-main()
+if __name__ == "__main__":
+    try:
+        main()
+    except (KeyboardInterrupt, EOFError):
+        print("\nGoodbye!")

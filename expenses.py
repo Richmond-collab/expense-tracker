@@ -5,10 +5,15 @@ CATEGORIES = {"food", "transport", "data", "other"}
 
 class Expense:
     def __init__(self, amount, category, note="", when=None):
-        if amount <= 0:
-            raise ValueError("Amount must be positive")
+        if amount <= 0 or amount != amount or amount == float("inf"):
+            raise ValueError("Amount must be a positive number")
         if category not in CATEGORIES:
             raise ValueError(f"Category must be one of {sorted(CATEGORIES)}")
+        if when:
+            try:
+                date.fromisoformat(when)
+            except ValueError:
+                raise ValueError("Date must be in YYYY-MM-DD format")
         self.amount = amount
         self.category = category
         self.note = note
