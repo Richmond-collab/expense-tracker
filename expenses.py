@@ -35,3 +35,15 @@ def add_expense(items):
         print("Expense added.")
     except ValueError as err:
         print(f"Could not add expense: {err}")
+
+        def total_by_category(items):
+         totals = {}
+        for e in items:
+         totals[e.category] = totals.get(e.category, 0) + e.amount
+    return totals
+
+
+def biggest_expense(items):
+    if not items:
+        return None
+    return max(items, key=lambda e: e.amount) 
