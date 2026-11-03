@@ -35,3 +35,11 @@ def add_expense(items):
         print("Expense added.")
     except ValueError as err:
         print(f"Could not add expense: {err}")
+
+        def filter_by_category(items, category):
+          return [e for e in items if e.category == category]
+
+
+def filter_by_month(items, month):
+    # month is a string like "2026-10"
+    return [e for e in items if e.when.startswith(month)]

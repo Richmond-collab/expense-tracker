@@ -44,4 +44,30 @@ def main():
             print("Invalid choice, try again.")
 
 
+def filter_menu(items):
+    print("1. By category")
+    print("2. By month")
+    choice = input("Filter by: ").strip()
+
+    if choice == "1":
+        category = input(f"Category {sorted(CATEGORIES)}: ").strip().lower()
+        if category not in CATEGORIES:
+            print("Unknown category.")
+            return
+        results = filter_by_category(items, category)
+    elif choice == "2":
+        month = input("Month (YYYY-MM): ").strip()
+        if len(month) != 7 or month[4] != "-":
+            print("Please use the format YYYY-MM, e.g. 2026-10.")
+            return
+        results = filter_by_month(items, month)
+    else:
+        print("Invalid choice.")
+        return
+
+    if not results:
+        print("No matching expenses.")
+        return
+    for number, e in enumerate(sort_by_date(results), start=1):
+        print(f"{number}. {e}")
 main()
