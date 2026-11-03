@@ -24,3 +24,14 @@ class Expense:
 
 def sort_by_date(items):
     return sorted(items, key=lambda e: e.when)
+
+def add_expense(items):
+    try:
+        amount = float(input("Amount: "))
+        category = input(f"Category {sorted(CATEGORIES)}: ").strip().lower()
+        note = input("Note: ")
+        when = input("Date (YYYY-MM-DD, blank for today): ").strip() or None
+        items.append(Expense(amount, category, note, when))
+        print("Expense added.")
+    except ValueError as err:
+        print(f"Could not add expense: {err}")

@@ -1,4 +1,7 @@
 from expenses import Expense, CATEGORIES, sort_by_date
+from storage import load_expenses, save_expenses
+
+DATA_FILE = "expenses.json"
 
 
 def add_expense(items):
