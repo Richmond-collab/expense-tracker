@@ -1,3 +1,6 @@
+from json.tool import main
+from random import choice
+
 from expenses import Expense, CATEGORIES, sort_by_date
 from storage import load_expenses, save_expenses
 
@@ -16,28 +19,23 @@ def add_expense(items):
         print(f"Could not add expense: {err}")
 
 
-def list_expenses(items):
-    if not items:
-        print("No expenses yet.")
-        return
-    for number, e in enumerate(sort_by_date(items), start=1):
-        print(f"{number}. {e}")
-
-
 def main():
-    items = []
+    items = load_expenses(DATA_FILE)
     while True:
         print("\n=== Expense Tracker ===")
         print("1. Add expense")
         print("2. List expenses")
-        print("3. Quit")
-        choice = input("Choose an option: ")
+        print("3. Delete expense")
+        print("4. Quit")
+        choice = input("Choose an option: ").strip()
 
         if choice == "1":
             add_expense(items)
         elif choice == "2":
             list_expenses(items)
         elif choice == "3":
+            delete_expense_menu(items)
+        elif choice == "4":
             print("Goodbye!")
             break
         else:
